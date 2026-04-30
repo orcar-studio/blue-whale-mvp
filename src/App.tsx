@@ -688,19 +688,41 @@ function App() {
           Reset Demo Data
         </button>
       </section>
-      <section className="promise-strip" aria-label="How Blue Whale works">
-        <article>
-          <strong>1. Tell us your trip</strong>
-          <span>Destination, dates, preferred categories, social links, and optional contact.</span>
-        </article>
-        <article>
-          <strong>2. Browse the sponsorship market</strong>
-          <span>See hotels, cars, cafes, beauty, activities, and local offers available in that area.</span>
-        </article>
-        <article>
-          <strong>3. Receive business proposals first</strong>
-          <span>When you mark interest, businesses can send proposals for Blue Whale review.</span>
-        </article>
+      <section className="offer-showcase" aria-label="Available sponsorship examples">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">Sponsorships you can browse</p>
+            <h2>Hotels, rides, beauty, local food, and travel essentials.</h2>
+          </div>
+          <p className="helper small">Apply once, then open a market of available offers around your destination.</p>
+        </div>
+        <div className="showcase-grid">
+          <article className="showcase-card large">
+            <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=80" alt="Pool villa sponsorship preview" />
+            <span>Jeju stays</span>
+            <strong>Ocean-view stays and private villas</strong>
+          </article>
+          <article className="showcase-card">
+            <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=900&q=80" alt="Rental car sponsorship preview" />
+            <span>Rental car</span>
+            <strong>Contactless car rentals for creator routes</strong>
+          </article>
+          <article className="showcase-card">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Jeju_gogi_noodle.jpg?width=900" alt="Jeju gogi-guksu sponsorship preview" />
+            <span>Local food</span>
+            <strong>Jeju gogi-guksu and restaurant visits</strong>
+          </article>
+          <article className="showcase-card">
+            <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=900&q=80" alt="K-beauty sponsorship preview" />
+            <span>K-beauty</span>
+            <strong>Skin clinics and beauty studios</strong>
+          </article>
+          <article className="showcase-card">
+            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80" alt="Travel eSIM sponsorship preview" />
+            <span>eSIM</span>
+            <strong>Travel data packs for upload-on-the-go</strong>
+          </article>
+        </div>
       </section>
     </main>
   )

@@ -1,7 +1,12 @@
 import type { BlueWhaleStore, BusinessOffer, CreatorApplication } from './types'
 
-export const getMatchingOffers = (store: BlueWhaleStore, creator: Pick<CreatorApplication, 'destination' | 'categories'>) =>
-  store.business_offers.filter((offer) => offer.location === creator.destination && creator.categories.includes(offer.category))
+export const getMarketOffers = (store: BlueWhaleStore, creator: Pick<CreatorApplication, 'destination'>) =>
+  store.business_offers
+    .filter((offer) => offer.location === creator.destination && offer.availability_status !== 'paused')
+    .sort((left, right) => {
+      const confirmedScore = Number(right.availability_status === 'partner_confirmed') - Number(left.availability_status === 'partner_confirmed')
+      return confirmedScore || left.category.localeCompare(right.category) || left.business_name.localeCompare(right.business_name)
+    })
 
 export const getInterestedCreatorsForOffer = (store: BlueWhaleStore, offer: BusinessOffer) => {
   const interestedCreatorIds = new Set(
@@ -10,13 +15,7 @@ export const getInterestedCreatorsForOffer = (store: BlueWhaleStore, offer: Busi
       .map((preference) => preference.creator_application_id),
   )
 
-  return store.creator_applications.filter((creator) => {
-    return (
-      interestedCreatorIds.has(creator.id) &&
-      creator.destination === offer.location &&
-      creator.categories.includes(offer.category)
-    )
-  })
+  return store.creator_applications.filter((creator) => interestedCreatorIds.has(creator.id) && creator.destination === offer.location)
 }
 
 export const getCreatorBundle = (store: BlueWhaleStore, creatorId: string) => ({
@@ -24,6 +23,7 @@ export const getCreatorBundle = (store: BlueWhaleStore, creatorId: string) => ({
   socialAccounts: store.creator_social_accounts.filter((account) => account.creator_application_id === creatorId),
   preferences: store.creator_offer_preferences.filter((preference) => preference.creator_application_id === creatorId),
   proposals: store.business_proposals.filter((proposal) => proposal.creator_application_id === creatorId),
+  tasks: store.operator_tasks.filter((task) => task.creator_application_id === creatorId),
 })
 
 export const getBusinessBundle = (store: BlueWhaleStore, offerId: string) => ({

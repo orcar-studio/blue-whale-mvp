@@ -8,7 +8,6 @@ export const sponsorshipTemplates: Record<Category, string> = {
   Cafe: 'Cafe set for 2, signature drinks included',
   Activity: 'Experience pass for 2, reservation required',
   'Photo Shoot': '30-minute photo shoot, 10 edited photos included',
-  Shopping: 'Product voucher or discount, details to be discussed',
   Connectivity: 'Travel eSIM data plan, activation guide included',
 }
 

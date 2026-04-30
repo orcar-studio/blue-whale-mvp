@@ -1,33 +1,34 @@
 export const DESTINATIONS = ['Jeju', 'Seoul', 'Busan', 'Gangneung'] as const
-export const CATEGORIES = [
-  'Hotel',
-  'Rental Car',
-  'Restaurant',
-  'Cafe',
-  'Beauty',
-  'Activity',
-  'Photo Shoot',
-  'Shopping',
-  'Connectivity',
-] as const
-
-export const CONTENT_TYPES = [
-  'Instagram Reel',
-  'Instagram Story',
-  'YouTube Shorts',
-  'TikTok',
-  'Blog Post',
-  'Photo Set',
-] as const
+export const CATEGORIES = ['Hotel', 'Rental Car', 'Restaurant', 'Cafe', 'Beauty', 'Activity', 'Photo Shoot', 'Connectivity'] as const
+export const CONTENT_TYPES = ['Instagram Reel', 'Instagram Story', 'YouTube Shorts', 'TikTok', 'Blog Post', 'Photo Set'] as const
 
 export type Destination = (typeof DESTINATIONS)[number]
 export type Category = (typeof CATEGORIES)[number]
 export type ContentType = (typeof CONTENT_TYPES)[number]
 
-export type ReviewStatus = 'Under Blue Whale Review' | 'Sent to Creator' | 'Creator Interested' | 'Creator Declined' | 'Confirmed'
+export type ApplicationStatus = 'new' | 'blue_whale_reviewing' | 'proposal_received' | 'confirmed'
 export type OfferPreference = 'interested' | 'not_interested'
+export type OutreachStatus =
+  | 'interest_saved'
+  | 'blue_whale_reviewing'
+  | 'business_contacted'
+  | 'business_replied'
+  | 'proposal_received'
+  | 'not_available'
+  | 'confirmed'
+export type ProposalStatus =
+  | 'under_blue_whale_review'
+  | 'proposal_received'
+  | 'sent_to_creator'
+  | 'creator_interested'
+  | 'creator_declined'
+  | 'confirmed'
 export type ContactPreference = 'blue_whale' | 'direct_ok'
+export type SourceType = 'seeded' | 'partner' | 'reference' | 'manual'
+export type AvailabilityStatus = 'requestable' | 'partner_confirmed' | 'paused'
 export type SocialPlatform = 'Instagram' | 'TikTok' | 'YouTube' | 'Naver Blog'
+export type OperatorTaskType = 'contact_business' | 'review_creator' | 'deliver_proposal'
+export type OperatorTaskStatus = 'open' | 'in_progress' | 'done' | 'blocked'
 
 export type CreatorApplication = {
   id: string
@@ -36,11 +37,10 @@ export type CreatorApplication = {
   destination: Destination
   start_date: string
   end_date: string
-  categories: Category[]
   contact_instagram?: string
   contact_email?: string
   contact_phone?: string
-  status: ReviewStatus
+  status: ApplicationStatus
   created_at: string
   updated_at: string
 }
@@ -70,6 +70,8 @@ export type BusinessOffer = {
   image_url?: string
   reference_label?: string
   reference_url?: string
+  source_type: SourceType
+  availability_status: AvailabilityStatus
   address?: string
   website_or_social?: string
   short_description?: string
@@ -77,7 +79,7 @@ export type BusinessOffer = {
   contact_email?: string
   contact_phone?: string
   contact_instagram?: string
-  status: ReviewStatus
+  status: 'active' | 'draft' | 'archived'
   created_at: string
   updated_at: string
 }
@@ -87,6 +89,8 @@ export type CreatorOfferPreference = {
   creator_application_id: string
   business_offer_id: string
   preference: OfferPreference
+  outreach_status: OutreachStatus
+  operator_notes?: string
   created_at: string
   updated_at: string
 }
@@ -104,7 +108,19 @@ export type BusinessProposal = {
   available_dates?: string
   upload_deadline?: string
   contact_preference: ContactPreference
-  status: ReviewStatus
+  status: ProposalStatus
+  created_at: string
+  updated_at: string
+}
+
+export type OperatorTask = {
+  id: string
+  type: OperatorTaskType
+  creator_application_id: string
+  business_offer_id: string
+  business_proposal_id?: string
+  status: OperatorTaskStatus
+  notes?: string
   created_at: string
   updated_at: string
 }
@@ -115,4 +131,5 @@ export type BlueWhaleStore = {
   business_offers: BusinessOffer[]
   creator_offer_preferences: CreatorOfferPreference[]
   business_proposals: BusinessProposal[]
+  operator_tasks: OperatorTask[]
 }
